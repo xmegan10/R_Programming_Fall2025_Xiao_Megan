@@ -1,5 +1,5 @@
 # r-programming-assignments
 
-Megan Xiao
-LIS4370 R Programming
-Repository for LIS4370 R Programming Assignments
+Megan Xiao<br>
+LIS4370 R Programming<br>
+Repository for LIS4370 R Programming Assignments<br>
