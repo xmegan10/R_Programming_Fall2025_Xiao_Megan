@@ -1,6 +1,7 @@
 ---
 title: "Module #2"
-output: html_document
+author: Megan Xiao
+output: github_document
 date: "2025-08-31"
 ---
 
