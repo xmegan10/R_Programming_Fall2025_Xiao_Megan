@@ -1,0 +1,52 @@
+---
+title: "Module #2"
+author: Megan Xiao
+output: github_document
+date: "2025-08-31"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Erroneous myMean Function
+
+From Task 3, I create the vector "assignment2" and the function "myMean."
+```{r}
+# create numerical vector assignment2
+assignment2 <- c(16, 18, 14, 22, 27, 17, 19, 17, 17, 22, 20, 22)
+
+#create function myMean that returns the average of a vector
+myMean <- function(assignment2) {
+  return(sum(assignment) / length(someData))
+}
+```
+
+Attempting to pass assignment2 into myMean results in the following error:
+
+Error in myMean(assignment2) : object 'assignment' not found
+
+```{r}
+#myMean(assignment2) <- returns an error
+
+```
+
+The function contains two erroneous variables: (1) assignment and (2) someData. Data was not passed into any of these variables, nor were these variables initialized with any data. Therefore, R cannot run the myMean function.
+
+## Correcting myMean
+
+To correct myMean, the parameter name 'assignment' should replace 'assignment2' and 'someData' in the myMean function.
+
+```{r}
+#corrected myMean function
+myMean <- function(assignment) {
+  return(sum(assignment) / length(assignment))
+}
+
+#pass assignment2 into myMean
+print(myMean(assignment2))
+
+#verify myMean returns the correct result by comparing value with base R mean function
+print(mean(assignment2) == myMean(assignment2))
+```
+
