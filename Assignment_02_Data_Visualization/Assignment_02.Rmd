@@ -5,6 +5,11 @@ date: "2025-09-12"
 output: html_document
 ---
 
+```{r}
+library(ggplot2)
+library(reshape)
+```
+
 ## Define and Inspect Your Data
 
 First, I create the following vectors "Name", "ABC_poll", and "CBS_poll."
@@ -60,6 +65,13 @@ print(paste("Range of CBS polls:",max(df_polls$CBS_poll) - min(df_polls$CBS_poll
 Add a column for the difference between CBS and ABC:
 
 ```{r}
-df_polls$Diff <- df_polls$CBS_poll - df_polls$ABC_poll
+df_polls$Diff <- abs(df_polls$CBS_poll - df_polls$ABC_poll)
 df_polls
+```
+
+## Exploratory Data Analysis
+
+```{r}
+df_polls.melt <- melt(df_polls, id.vars = "Name", measure.vars = c("ABC_poll","CBS_poll"))
+ggplot(df_polls.melt, aes(x = Name, y = variable, fill = factor(variable))) + geom_bar()
 ```
