@@ -2,7 +2,7 @@
 title: "Assignment_02"
 author: "Megan Xiao"
 date: "2025-09-12"
-output: html_document
+output: github_document
 ---
 
 ```{r}
@@ -89,6 +89,7 @@ df_polls.melt %>%
        x = "Name of Candidate",
        title = "Polling Points Ordered by Difference in Source")
 ```
+
 ## Discuss and Reflect
 
 According to the data and the bar plot, Donald showed the largest discrepancy between ABC and CBS. Candidates showing larger discrepancies also had more respondents who were in favor of that candidate. The correlation between the number of respondents showing favor and the difference in the score may point to multicollinearity.
