@@ -7,7 +7,8 @@ output: html_document
 
 ## Define and Inspect Your Data
 
-First, I create the following vectors:
+First, I create the following vectors "Name", "ABC_poll", and "CBS_poll."
+"Name" contains a list of recent presidential candidates."ABC_poll" and "CBS_poll" represent the percentage (points) of respondents in favor of the corresponding candidate.
 
 
 ```{r}
@@ -22,18 +23,29 @@ I combine these vectors into a DataFrame.
 df_polls <- data.frame(Name, ABC_poll, CBS_poll)
 ```
 
-The resulting DataFrame:
+The resulting DataFrame has three columns and seven rows:
 
 ```{r}
 df_polls
 ```
+Let's look at the structure of the DataFrame.
 
-## Including Plots
+```{r}
+str(df_polls)
+```
+The "Name" column contains character values, while "ABC_poll" and "CBS_poll" contains numeric values. 
 
-You can also embed plots, for example:
+Head of df_polls:
+```{r}
+head(df_polls)
+```
+The head() function shows the first six rows of df_polls. Since df_polls only has seven rows, this function is not really necessary. It's better used for large data sets.
+
+## Compute Summary Statistics
+
+
 
 ```{r}
 
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
