@@ -49,5 +49,3 @@ print(myMean(assignment2))
 #verify myMean returns the correct result by comparing value with base R mean function
 print(mean(assignment2) == myMean(assignment2))
 ```
-
-
