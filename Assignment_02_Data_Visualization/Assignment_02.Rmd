@@ -43,9 +43,23 @@ The head() function shows the first six rows of df_polls. Since df_polls only ha
 
 ## Compute Summary Statistics
 
-
+The mean, median, and range of the ABC polls:
 
 ```{r}
+print(paste("Mean of ABC polls:",mean(df_polls$ABC_poll)))
+print(paste("Median of ABC polls:",median(df_polls$ABC_poll)))
+print(paste("Range of ABC polls:",max(df_polls$ABC_poll) - min(df_polls$ABC_poll)))
 
 ```
+The mean, median, and range of the CBS polls:
+```{r}
+print(paste("Mean of CBS polls:",mean(df_polls$CBS_poll)))
+print(paste("Median of CBS polls:",median(df_polls$CBS_poll)))
+print(paste("Range of CBS polls:",max(df_polls$CBS_poll) - min(df_polls$CBS_poll)))
+```
+Add a column for the difference between CBS and ABC:
 
+```{r}
+df_polls$Diff <- df_polls$CBS_poll - df_polls$ABC_poll
+df_polls
+```
