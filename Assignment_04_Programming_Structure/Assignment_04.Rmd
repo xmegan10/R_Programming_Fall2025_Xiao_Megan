@@ -5,22 +5,31 @@ date: "2025-09-16"
 output: github_document
 ---
 
-## R Markdown
+## Data Preparation and Cleaning
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+First, define the 5 vectors: Frequency, BloodPressure, FirstAssess, SecondAssess, and FinalDecision.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Frequency represents a vector of vital signs frequency, but it is unknown exactly what kind of vital sign it represents. The vector is standardized since the numbers go from 0 to 1.
+
+BloodPressure represents a vector of blood pressure measurements ranging from 32 to 205. Lower values indicate hypotension (low blood pressure) and higher values indicate hypertension (high blood pressure).
+
+FirstAssess represents a vector of the initial binary assessments of Frequency and BloodPressure. 1 equals a bad reading and 0 equals a good reading. SecondAssess and FinalDecision include a similar format, where 1 equals a high priority for medical intervention/bad reading and 0 equals a low priority/good reading.
+
+```{r}
+Frequency     <- c(0.6, 0.3, 0.4, 0.4, 0.2, 0.6, 0.3, 0.4, 0.9, 0.2)
+BloodPressure <- c(103, 87, 32, 42, 59, 109, 78, 205, 135, 176)
+FirstAssess   <- c(1, 1, 1, 1, 0, 0, 0, 0, NA, 1)    # bad=1, good=0
+SecondAssess  <- c(0, 0, 1, 1, 0, 0, 1, 1, 1, 1)    # low=0, high=1
+FinalDecision <- c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1)    # low=0, high=1
+```
 
 ```{r cars}
-summary(cars)
+
 ```
 
-## Including Plots
+## Generate Basic Visualizations
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+## Interpretation and Discussion
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Submission
