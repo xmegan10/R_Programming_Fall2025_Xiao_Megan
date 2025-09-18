@@ -9,26 +9,66 @@ output: github_document
 
 First, define the 5 vectors: Frequency, BloodPressure, FirstAssess, SecondAssess, and FinalDecision.
 
-Frequency represents a vector of vital signs frequency, but it is unknown exactly what kind of vital sign it represents. The vector is standardized since the numbers go from 0 to 1.
+Frequency either represents a vector of vital signs frequency or frequency of measurement*. The vector is standardized since the numbers go from 0 to 1.
 
 BloodPressure represents a vector of blood pressure measurements ranging from 32 to 205. Lower values indicate hypotension (low blood pressure) and higher values indicate hypertension (high blood pressure).
 
-FirstAssess represents a vector of the initial binary assessments of Frequency and BloodPressure. 1 equals a bad reading and 0 equals a good reading. SecondAssess and FinalDecision include a similar format, where 1 equals a high priority for medical intervention/bad reading and 0 equals a low priority/good reading.
+FirstAssess, SecondAssess, and FinalDecision represent a vector of the initial binary assessments of Frequency and BloodPressure. 1 equals a bad reading/high indication of blood pressure and 0 equals a good reading/low indication of blood pressure*.
+
+*Since the task did not specify the representation of some columns, I made an estimated guess of their meanings in the context of hospital data.
 
 ```{r}
 Frequency     <- c(0.6, 0.3, 0.4, 0.4, 0.2, 0.6, 0.3, 0.4, 0.9, 0.2)
 BloodPressure <- c(103, 87, 32, 42, 59, 109, 78, 205, 135, 176)
-FirstAssess   <- c(1, 1, 1, 1, 0, 0, 0, 0, NA, 1)    # bad=1, good=0
-SecondAssess  <- c(0, 0, 1, 1, 0, 0, 1, 1, 1, 1)    # low=0, high=1
-FinalDecision <- c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1)    # low=0, high=1
+FirstAssess   <- c(1, 1, 1, 1, 0, 0, 0, 0, NA, 1)    # good/low=0, bad/high=1
+SecondAssess  <- c(0, 0, 1, 1, 0, 0, 1, 1, 1, 1)    # good/low=0, bad/high=1
+FinalDecision <- c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1)    # good/low=0, bad/high=1
 ```
 
-```{r cars}
+We then create a DataFrame using the five vectors.
+
+```{r}
+df_hosp <- data.frame(
+  Frequency, BloodPressure, FirstAssess,
+  SecondAssess, FinalDecision, stringsAsFactors = FALSE
+)
 
 ```
+
+And inspecting the summary statistics for the DataFrame:
+```{r}
+summary(df_hosp)
+```
+Frequency has a similar mean and median, meaning it most likely has a normal distribution. BloodPressure has a higher mean compared to the median, meaning it is skewed to the right. FirstAssess, SecondAssess, and FinalDecision have lower means compared to the median, meaning it is skewed to the left.
+The presence of skewness means outliers may overestimate or underestimate the most common measurements. We can use a box plot to determine if there are any outliers.
 
 ## Generate Basic Visualizations
+```{r}
+par(mfrow = c(1,3))
+boxplot(BloodPressure ~ FirstAssess,
+        data = df_hosp,
+        names = c("Low","High"),
+        ylab = "Blood Pressure",
+        main = "BP by First MD Assessment",
+        cex.main = .95)
+boxplot(BloodPressure ~ SecondAssess,
+  data = df_hosp,
+  names = c("Low","High"),
+  ylab = "Blood Pressure",
+  main = "BP by Second MD Assessment",
+  cex.main = .95)
+boxplot(
+  BloodPressure ~ FinalDecision,
+  data = df_hosp,
+  names = c("Low","High"),
+  ylab = "Blood Pressure",
+  main = "BP by Final Decision",
+  cex.main = .95)
+```
+No outliers exist in any of the box plots. In the first assessment, individuals with low, or good readings, had higher blood pressure. The second assessment consisted of more varied blood pressures for those with bad readings. The final decision shows some correlation opposite to the first assessment, where individuals with lower blood pressures had good readings, while individuals with higher blood pressures had bad readings.
 
+
+## Logistic Regression and Predictions
 
 ## Interpretation and Discussion
 
