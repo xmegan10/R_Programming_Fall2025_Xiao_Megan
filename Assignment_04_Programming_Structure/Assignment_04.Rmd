@@ -67,8 +67,68 @@ boxplot(
 ```
 No outliers exist in any of the box plots. In the first assessment, individuals with low, or good readings, had higher blood pressure. The second assessment consisted of more varied blood pressures for those with bad readings. The final decision shows some correlation opposite to the first assessment, where individuals with lower blood pressures had good readings, while individuals with higher blood pressures had bad readings.
 
+Let's also investigate how the differences in frequency variation based on assessment reading.
 
-## Logistic Regression and Predictions
+```{r}
+par(mfrow = c(1,3))
+boxplot(Frequency ~ FirstAssess,
+        data = df_hosp,
+        names = c("Low","High"),
+        ylab = "Frequency",
+        main = "Frequency by First MD Assessment",
+        cex.main = .7)
+boxplot(Frequency ~ SecondAssess,
+  data = df_hosp,
+  names = c("Low","High"),
+  ylab = "Frequency",
+  main = "Frequency by Second MD Assessment",
+  cex.main = .7)
+boxplot(
+  Frequency ~ FinalDecision,
+  data = df_hosp,
+  names = c("Low","High"),
+  ylab = "Frequency",
+  main = "Frequency by Final Decision",
+  cex.main = .7)
+```
+The first and second assessment both contain one outlier. Low/bad readings had more varied frequencies. The second assessment had a lower median for high readings compared to the first assessment. However, both readings do not reflect the final decision accurately.
+
+We can also use a scatterplot to view the relationship between blood pressure and frequency.
+```{r}
+ggplot(data=df_hosp, aes(x=BloodPressure, y=Frequency)) + geom_point()
+```
+There is a positive weak correlation between frequency and blood pressure; as blood pressure increases, so does frequency.
+
+Lastly, let's see how varied our numerical data for frequency and blood pressure is with a histogram.
+
+```{r}
+par(mfrow = c(1,2))
+hist(
+  df_hosp$Frequency,
+  breaks = seq(0, 1, by = 0.3),
+  xlab = "Visit Frequency",
+  main = "Histogram of Visit Frequency",
+  cex.main = .9
+)
+
+hist(
+  df_hosp$BloodPressure,
+  breaks = 5,
+  xlab = "Blood Pressure",
+  main = "Histogram of Blood Pressure",
+  cex.main = .9
+)
+```
+Both frequency and blood pressure are skewed to the right. This means larger values exist, but they aren't common, thus skewing the mean to the right. Common/average values tend to center around the median rather than the mean.
+
+## First Assessment VS Second Assessment for Predicting Final Decision
+
+Which does better at predicting the final decision: the first or second assessment?
+We can answer this question using a logistic regression algorithm.
+
+```{r}
+```
+
 
 ## Interpretation and Discussion
 
