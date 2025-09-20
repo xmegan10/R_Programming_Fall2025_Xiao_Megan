@@ -5,6 +5,10 @@ date: "2025-09-16"
 output: github_document
 ---
 
+```{r}
+library(ggplot2)
+library(reshape2)
+```
 ## Data Preparation and Cleaning
 
 First, define the 5 vectors: Frequency, BloodPressure, FirstAssess, SecondAssess, and FinalDecision.
@@ -23,6 +27,13 @@ BloodPressure <- c(103, 87, 32, 42, 59, 109, 78, 205, 135, 176)
 FirstAssess   <- c(1, 1, 1, 1, 0, 0, 0, 0, NA, 1)    # good/low=0, bad/high=1
 SecondAssess  <- c(0, 0, 1, 1, 0, 0, 1, 1, 1, 1)    # good/low=0, bad/high=1
 FinalDecision <- c(0, 1, 0, 1, 0, 1, 0, 1, 1, 1)    # good/low=0, bad/high=1
+```
+
+There is 1 NA value in FirstAssess. We can replace it with the most common value in the vector.
+
+```{r}
+FirstAssess[is.na(FirstAssess)] <- 1
+FirstAssess
 ```
 
 We then create a DataFrame using the five vectors.
@@ -123,13 +134,48 @@ Both frequency and blood pressure are skewed to the right. This means larger val
 
 ## First Assessment VS Second Assessment for Predicting Final Decision
 
-Which does better at predicting the final decision: the first or second assessment?
-We can answer this question using a logistic regression algorithm.
+Which does better at predicting the final decision: the first or second assessment? We can answer this question using a logistic regression algorithm.
+Creating a confusion matrix based on a logistic regression model will allow us to see which training set (the first assessment and the second assessment) predicts more accurate results when compared to the test set (the final decision).
+I created a function that takes in the training and test sets as arguments. Using a logistic regression model, the algorithm fits a sigmoid line based on the predictors blood pressure and frequency. We can then use the sigmoid line to predict new binomial outputs and compare them to the actual results (the test set).
 
 ```{r}
+log_reg <- function(train, test){
+  train_set <- train #first or second assessment
+  test_set <- test #final decision
+  
+  log_model <- glm(train_set ~ BloodPressure + Frequency, data=df_hosp, family = "binomial") #logistic model (high or low) prediction based on blood pressure AND frequency
+  predict_reg <- predict(log_model, type = "response")
+  predict_reg <- as.data.frame(predict_reg)
+  predict_reg <- round(unlist(predict_reg))
+                       
+  conf_matrix <- table(test, predict_reg)
+
+  conf_matrix_melted <- as.data.frame(conf_matrix)
+  colnames(conf_matrix_melted) <- c("Actual","Predicted","Count")
+
+  conf_matrix_result <- ggplot(conf_matrix_melted, aes(x = Actual, y = Predicted, fill = Count)) +
+    geom_tile() +
+    geom_text(aes(label = Count), color = "black", size = 6) + 
+    scale_fill_gradient(low = "white", high = "blue") +
+    theme_minimal()
+  return(conf_matrix_result)
+}
 ```
 
+Confusion matrix of FirstAssess:
 
+```{r}
+first_train <- df_hosp$FirstAssess
+test <- df_hosp$FinalDecision
+log_reg(first_train, test)
+
+```
+
+Confusion matrix of SecondAssess:
+```{r}
+second_train <- df_hosp$SecondAssess
+log_reg(second_train, test)
+```
 ## Interpretation and Discussion
 
 ## Submission
