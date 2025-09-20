@@ -13,11 +13,11 @@ library(reshape2)
 
 First, define the 5 vectors: Frequency, BloodPressure, FirstAssess, SecondAssess, and FinalDecision.
 
-Frequency either represents a vector of vital signs frequency or frequency of measurement*. The vector is standardized since the numbers go from 0 to 1.
+Frequency either represents a vector of vital signs frequency or frequency of measurement.* The vector is standardized since the numbers go from 0 to 1.
 
 BloodPressure represents a vector of blood pressure measurements ranging from 32 to 205. Lower values indicate hypotension (low blood pressure) and higher values indicate hypertension (high blood pressure).
 
-FirstAssess, SecondAssess, and FinalDecision represent a vector of the initial binary assessments of Frequency and BloodPressure. 1 equals a bad reading/high indication of blood pressure and 0 equals a good reading/low indication of blood pressure*.
+FirstAssess, SecondAssess, and FinalDecision represent a vector of the initial binary assessments of Frequency and BloodPressure. 1 equals a bad reading/high indication of blood pressure and 0 equals a good reading/low indication of blood pressure.*
 
 *Since the task did not specify the representation of some columns, I made an estimated guess of their meanings in the context of hospital data.
 
@@ -136,7 +136,9 @@ Both frequency and blood pressure are skewed to the right. This means larger val
 
 Which does better at predicting the final decision: the first or second assessment? We can answer this question using a logistic regression algorithm.
 Creating a confusion matrix based on a logistic regression model will allow us to see which training set (the first assessment and the second assessment) predicts more accurate results when compared to the test set (the final decision).
-I created a function that takes in the training and test sets as arguments. Using a logistic regression model, the algorithm fits a sigmoid line based on the predictors blood pressure and frequency. We can then use the sigmoid line to predict new binomial outputs and compare them to the actual results (the test set).
+I created a function that takes in the training and test sets as arguments. Using a logistic regression model, the algorithm fits a sigmoid line based on the predictors blood pressure AND frequency.* We can then use the sigmoid line to predict new binomial outputs and compare them to the actual results (the test set).
+
+*Using just blood pressure OR frequency to create a fitted line may work better than using both predictors. However, due to time, I used both in this analysis.
 
 ```{r}
 log_reg <- function(train, test){
@@ -176,6 +178,11 @@ Confusion matrix of SecondAssess:
 second_train <- df_hosp$SecondAssess
 log_reg(second_train, test)
 ```
+When we fit a sigmoid line based on blood pressure AND frequency, the second assessment produced slightly more accurate results than the first assessment (6 accurate predictions vs 4 accurate predictions). Therefore, the second assessment is a better indicator of the final decision outputs.
+
 ## Interpretation and Discussion
 
-## Submission
+The box plots for blood pressure in the first and second assessment center around the value of 100 for both low and high assessments. In the third assessment, however, the blood pressures for low and high outputs are vastly different, where the values are centered around 50 for individuals with low readings, and values are centered around 130 for those with high readings.
+While there are no outliers in any of the assessments for blood pressure, larger/smaller values from the median skew the variance; this is noticable in the first and second assessment in blood pressure, where the first and third quartile are far from the median. The variance of the final decision is significantly less.
+Made-up data limits the accuracy of results by introducing potential bias or misleading information. It may not reflect reality, especially for a data set with a minimal number of rows. Made-up data can be beneficial for testing certain functions or algorithm scenarios, but should not be compared to real-life data on a humanistic/social-science level.
+NA values are common in data sets. I decided to handle the NA value here by replacing it with the most common number in its vector due to time. However, this practice is not recommended in real-life data sets where there are hundreds or thousands of NA values. The best practices are to analyze patterns in other columns that occur with NA values, and then handle them based on those findings. 
