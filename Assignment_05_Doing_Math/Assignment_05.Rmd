@@ -6,12 +6,12 @@ output: html_document
 ---
 
 ## Create the matrics
-
+A matrix is a 2D array of numbers arranged in rows and columns. Mathematicians often use arrays to organize and work with structured information. Matrices are used in a wide variety of applications, such as physics, quantum mechanics, or computer graphic displays.
+R allows us to create matrices using the matrix() function. Here, we create two matrices: A and B. A consists of numbers 1 to 100 ascending top-down (column) and left-right (row). B consists of numbers 1 to 1000 ascending in a similar way to A. We specify the argument nrow = 10 to force both matrices to have only 10 rows. However, since ncol was not specified, R will create a new column and continue filling the matrix after the 10th row.
 ```{r}
 A <- matrix(1:100, nrow = 10)
 B <- matrix(1:1000, nrow = 10)
 ```
-
 
 ## Inspect Dimensions
 
