@@ -5,11 +5,35 @@ date: "2025-09-29"
 output: html_document
 ---
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Create the matrics
 
 ```{r}
+A <- matrix(1:100, nrow = 10)
+B <- matrix(1:1000, nrow = 10)
 ```
+
+
+## Inspect Dimensions
+
+```{r}
+dim(A)
+```
+
+```{r}
+dim(B)
+```
+
+## Compute Inverse and Determinant
+
+```{r}
+# For A
+invA <- solve(A)
+detA <- det(A)
+
+# For B, use tryCatch to capture errors
+invB <- tryCatch(solve(B), error = function(e) e)
+detB <- tryCatch(det(B),   error = function(e) e)
+```
+
+## Summary
+
