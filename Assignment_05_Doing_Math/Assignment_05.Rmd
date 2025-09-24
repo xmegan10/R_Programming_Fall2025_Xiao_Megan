@@ -23,17 +23,45 @@ dim(A)
 ```{r}
 dim(B)
 ```
+<br>Matrix B has 10 rows and 100 columns. It is not a square matrix because it does not contain the same rows as it does columns.<br>
 
 ## Compute Inverse and Determinant
+Now, we will find the inverse and determinant of matrices A and B. To find the inverse, the determinant of a matrix must not be 0.<br>
+First, let's find the determinant of A:
 
 ```{r}
-# For A
-invA <- solve(A)
-detA <- det(A)
+det(A)
+```
+The determinant of A is 0. Therefore, if we try to find the inverse of A, we get the following error:
 
-# For B, use tryCatch to capture errors
-invB <- tryCatch(solve(B), error = function(e) e)
-detB <- tryCatch(det(B),   error = function(e) e)
+```{r}
+tryCatch(solve(A), error = function(e) e)
+```
+This is because our matrix is singular. Since the numbers are sequential, the rows are linearly dependent on one another, leading to a determinant of 0.
+To find a non-zero determinant from a matrix, we would need to disrupt the sequential pattern in some way. We can do this by flattening the current matrix into a vector, shuffling the elements, and reshaping the shuffled elements back into a matrix.
+
+```{r}
+A_vec <- as.vector(A)
+shuffled_A <- sample(A_vec)
+A <- matrix(shuffled_A, nrow = 10)
+A
+```
+Now, if when we use the det() function, we get a valid determinant:
+```{r}
+det(A)
+```
+This also allows us to find the inverse of A:
+```{r}
+solve(A)
+```
+Now, let's try to find the determinant of B.
+```{r}
+tryCatch(det(B), error = function(e) e)
+```
+We get a similar error that we got with matrix A. However, this time, it's because B is not a square matrix. It has an unequal number of rows and columns. Determinants can only be found in square matrices. Therefore, we need to convert B into a square matrix.
+
+```{r}
+
 ```
 
 ## Summary
