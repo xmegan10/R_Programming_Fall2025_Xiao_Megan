@@ -58,8 +58,37 @@ Now, let's try to find the determinant of B.
 ```{r}
 tryCatch(det(B), error = function(e) e)
 ```
-We get a similar error that we got with matrix A. However, this time, it's because B is not a square matrix. It has an unequal number of rows and columns. Determinants can only be found in square matrices. Therefore, we need to convert B into a square matrix.
+Like matrix A, we get an error; however, this time, it's because B is not a square matrix. It has an unequal number of rows and columns. Therefore, we need to convert B into a square matrix.
+We can indice B into the shape of a regular matrix, but this, just like A, will change the original values and meanings of B. 
+```{r}
+B_ind <- matrix(B[1:100], nrow = 10, ncol = 10)
+B_ind
+```
+However, this does not solve all our problems. If we try to find the determinant of B_ind...
 
+```{r}
+det(B_ind)
+```
+We get 0. Like matrix A, we also need to shuffle the values out of order to get a non-zero determinant.
+```{r}
+B_ind.vec <- as.vector(B_ind)
+B_ind <- sample(B_ind.vec)
+B_ind <- matrix(B_ind, nrow = 10)
+B_ind
+```
+Now, we will get a non-zero determinant:
+```{r}
+det(B_ind)
+```
+And if we use solve():
+```{r}
+solve(B_ind)
+```
+We get the inverse for each value in B.
+
+## Multiplying Matrices
+Another way we can get the inverse and determinants is by multiplying matrices. However, this creates a new, unique matrix that does not reflect the inverses/determinants of the original matrices.
+To multiply
 ```{r}
 
 ```
