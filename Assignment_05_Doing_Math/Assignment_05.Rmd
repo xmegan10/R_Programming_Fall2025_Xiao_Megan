@@ -2,11 +2,11 @@
 title: "Assignment_05"
 author: "Megan Xiao"
 date: "2025-09-29"
-output: html_document
+output: github_document
 ---
 
 ## Create the matrics
-A matrix is a 2D array of numbers arranged in rows and columns. Mathematicians often use arrays to organize and work with structured information. Matrices are used in a wide variety of applications, such as physics, quantum mechanics, or computer graphic displays. <br>
+A matrix is a 2D array of numbers arranged in rows and columns. Mathematicians often use arrays to organize and work with structured information. Matrices are used in a wide variety of applications, such as physics, quantum mechanics, and computer graphics displays. <br>
 R allows us to create matrices using the matrix() function. Here, we create two matrices: A and B. A consists of numbers 1 to 100 ascending top-down (column) and left-right (row). B consists of numbers 1 to 1000 ascending in a similar way to A. We specify the argument nrow = 10 to force both matrices to have only 10 rows. However, since ncol was not specified, R will create a new column and continue filling the matrix after the 10th row. <br>
 ```{r}
 A <- matrix(1:100, nrow = 10)
@@ -27,71 +27,95 @@ dim(B)
 
 ## Compute Inverse and Determinant
 Now, we will find the inverse and determinant of matrices A and B. To find the inverse, the determinant of a matrix must not be 0.<br>
-First, let's find the determinant of A:
+First, let's find the determinant of A:<br>
 
 ```{r}
 det(A)
 ```
-The determinant of A is 0. Therefore, if we try to find the inverse of A, we get the following error:
+The determinant of A is 0. Therefore, if we try to find the inverse of A, we get the following error:<br>
 
 ```{r}
 tryCatch(solve(A), error = function(e) e)
 ```
-This is because our matrix is singular. Since the numbers are sequential, the rows are linearly dependent on one another, leading to a determinant of 0.
-To find a non-zero determinant from a matrix, we would need to disrupt the sequential pattern in some way. We can do this by flattening the current matrix into a vector, shuffling the elements, and reshaping the shuffled elements back into a matrix.
+Our matrix is singular. Since the numbers are sequential, the rows are linearly dependent on one another, leading to a determinant of 0.<br>
+To find a non-zero determinant from a matrix, we need to disrupt the sequential pattern in some way. We can do this by flattening the current matrix into a vector, shuffling the elements, and reshaping the shuffled elements back into a matrix.<br>
 
 ```{r}
 A_vec <- as.vector(A)
 shuffled_A <- sample(A_vec)
-A <- matrix(shuffled_A, nrow = 10)
-A
+shuffled_A <- matrix(shuffled_A, nrow = 10)
+shuffled_A
 ```
-Now, if when we use the det() function, we get a valid determinant:
+Now, if when we use the det() function, we get a valid determinant:<br>
 ```{r}
-det(A)
+det(shuffled_A)
 ```
-This also allows us to find the inverse of A:
+This also allows us to find the inverse of A:<br>
 ```{r}
-solve(A)
+solve(shuffled_A)
 ```
-Now, let's try to find the determinant of B.
+Now, let's try to find the determinant of B.<br>
 ```{r}
 tryCatch(det(B), error = function(e) e)
 ```
-Like matrix A, we get an error; however, this time, it's because B is not a square matrix. It has an unequal number of rows and columns. Therefore, we need to convert B into a square matrix.
-We can indice B into the shape of a regular matrix, but this, just like A, will change the original values and meanings of B. 
+Like matrix A, we get an error; however, this time, it's because B is not a square matrix. It has an unequal number of rows and columns. Therefore, we need to convert B into a square matrix.<br>
+We can index values of B into the shape of a regular matrix, but this, just like A, will change the original values and meanings of B. <br>
 ```{r}
 B_ind <- matrix(B[1:100], nrow = 10, ncol = 10)
 B_ind
 ```
-However, this does not solve all our problems. If we try to find the determinant of B_ind...
+However, this does not solve all our problems. If we try to find the determinant of B_ind...<br>
 
 ```{r}
 det(B_ind)
 ```
-We get 0. Like matrix A, we also need to shuffle the values out of order to get a non-zero determinant.
+We get 0. Like matrix A, we also need to shuffle the values to get a non-zero determinant.<br>
 ```{r}
 B_ind.vec <- as.vector(B_ind)
 B_ind <- sample(B_ind.vec)
 B_ind <- matrix(B_ind, nrow = 10)
 B_ind
 ```
-Now, we will get a non-zero determinant:
+Now, we will get a non-zero determinant:<br>
 ```{r}
 det(B_ind)
 ```
-And if we use solve():
+And if we use solve():<br>
 ```{r}
 solve(B_ind)
 ```
-We get the inverse for each value in B.
+We get the inverse for each value in B.<br>
 
 ## Multiplying Matrices
-Another way we can get the inverse and determinants is by multiplying matrices. However, this creates a new, unique matrix that does not reflect the inverses/determinants of the original matrices.
-To multiply
+Another way we can get the inverse and determinants is by multiplying matrices. However, this creates a new, unique matrix that does not reflect the inverses/determinants of the original matrices. To multiply matrices in R, we use the operation "%*%".<br>
+Let's first try multiplying A by B and storing the result in a new matrix, C.<br>
 ```{r}
-
+C <- A %*% B
+C
+```
+As we have seen earlier, we cannot find the determinant of an irregular matrix. We will need to reshape the matrix C into a 10x10 matrix.<br>
+This time, we can try getting every 10th number from C and use the new sequence to recreate C into a regular matrix.<br>
+```{r}
+C_vec <- as.vector(C)
+C_vec <- C_vec[seq(from = 1, to = length(C_vec), by =10)]
+C_vec <- matrix(C_vec, nrow = 10)
+C_vec
+```
+Now, if we try to find the determinant:
+```{r}
+det(C_vec)
+```
+We get a non-zero determinant. However, if we try to find the inverse...
+```{r}
+tryCatch(solve(C_vec), error = function(e) e)
+```
+"Computationally singular" means the determinant is very close to 0, signaling that the matrix is nearly singular, even if the determinant is not exactly 0.<br>
+While we can shuffle the numbers to create a more disperse matrix like before, we can also pass a number smaller than the determinant into the "tol" (tolerance) argument of solve():<br>
+```{r}
+solve(C_vec, tol = 1e-35)
 ```
 
 ## Summary
-
+When we first tried to find the determinant and inverse of A and B using the solve() and det() functions, we got errors because both functions require that (1) the matrix is of a regular shape and (2) the matrix is not singular (no sequences or patterns). When using solve() on A, we get an error because the determinant is 0. When using det() on B, we get an error because the matrix is irregular.<br>
+We solved the irregularity by indexing the matrix, which removed a portion of the numbers. For singularity, we shuffled the numbers and, later, lowered the tolerance for the solve() function.<br>
+When we indexed the matrix or shuffled the matrix, we were, in essence, creating new matrices. These new matrices do not reflect any possible values from their original values. Lowering the tolerance for solve() is the "safest" method for finding inverses, because it outputs values of the original matrix, even if many of them are close to 0.<br>
