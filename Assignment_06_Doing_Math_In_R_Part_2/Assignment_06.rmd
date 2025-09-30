@@ -6,8 +6,11 @@ output: github_document
 ---
 
 ## Matrix Addition & Subtraction
-
+Matrix operations allow us to combine matrices using addition, subtraction, multiplication, and division; this is helpful for transforming large systems to model real-word situations. Physics, engineering, and technology all require matrices and matrix operations.
+We will first look at addition and subtraction. Let's create two 2x2 matrices:
 ```{r}
+A <- matrix(c(2, 0, 1, 3), ncol = 2)
+B <- matrix(c(5, 2, 4, -1), ncol = 2)
 ```
 
 ## Create a Diagonal Matrix
