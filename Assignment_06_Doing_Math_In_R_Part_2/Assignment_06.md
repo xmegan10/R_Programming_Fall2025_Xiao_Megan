@@ -1,9 +1,8 @@
----
-title: "Assignment_06"
-author: "Author: Megan Xiao\n"
-date: "Date: 2025-10-06\n"
-output: github_document
----
+Assignment_06
+================
+Author: Megan Xiao
+
+Date: 2025-10-06
 
 ## Matrix Addition & Subtraction
 
@@ -11,59 +10,81 @@ Matrix operations combine matrices using addition, subtraction,
 multiplication, and division, transforming large systems to model
 real-world situations. Physics, engineering, and technology all require
 matrices and matrix operations to represent various scenarios.<br> We
-will first look at addition and subtraction. Let's create two 2x2
+will first look at addition and subtraction. Let’s create two 2x2
 matrices:<br>
 
-```{r}
+``` r
 A <- matrix(c(2, 0, 1, 3), ncol = 2)
 B <- matrix(c(5, 2, 4, -1), ncol = 2)
 ```
 
-First, let's add B to A.<br>
+First, let’s add B to A.<br>
 
-```{r}
+``` r
 A + B
 ```
 
+    ##      [,1] [,2]
+    ## [1,]    7    5
+    ## [2,]    2    2
+
 Each value from B is added to each value from A, respectively, returning
-a new 2x2 matrix. The order of the values doesn't matter either, as we
+a new 2x2 matrix. The order of the values doesn’t matter either, as we
 can see when we add A to B; this is due to the commutative property,
 wherein the order of numbers in addition yields the same result.<br>
 
-```{r}
+``` r
 B + A
 ```
 
-Now, let's subtract B from A.<br>
+    ##      [,1] [,2]
+    ## [1,]    7    5
+    ## [2,]    2    2
 
-```{r}
+Now, let’s subtract B from A.<br>
+
+``` r
 A - B
 ```
+
+    ##      [,1] [,2]
+    ## [1,]   -3   -3
+    ## [2,]   -2    4
 
 Each value from B is subtracted from each value from A, returning a new
 2x2 matrix. When we switch the order of A and B, however, we get a
 different result. Although the numbers are the same, their signs are
 reversed.<br>
 
-```{r}
+``` r
 B - A
 ```
+
+    ##      [,1] [,2]
+    ## [1,]    3    3
+    ## [2,]    2   -4
 
 ## Create a Diagonal Matrix
 
 A diagonal matrix consists of a square matrix where all values are zero
-except for the principal diagonal elements, forming a "triangle" of
+except for the principal diagonal elements, forming a “triangle” of
 zeroes on the upper and lowers parts of the matrix. Diagonal matrices
 are useful for many operations.<br> To build a diagonal matrix, we use
-the diag() function. Let's create a 4x4 diagonal matrix, D:<br>
+the diag() function. Let’s create a 4x4 diagonal matrix, D:<br>
 
-```{r}
+``` r
 D <- diag(c(4, 1, 2, 3))
 D
 ```
 
+    ##      [,1] [,2] [,3] [,4]
+    ## [1,]    4    0    0    0
+    ## [2,]    0    1    0    0
+    ## [3,]    0    0    2    0
+    ## [4,]    0    0    0    3
+
 For each field where the index \# of the row is not equal to the index
-\# of the column in D[row, column], 0 must exist in that field. Scalar
+\# of the column in D\[row, column\], 0 must exist in that field. Scalar
 matrices, identity matrices, and null matrices are examples of diagonal
 matrices. <br> The number of numbers passed into diag() reflects the
 number of rows and columns in the matrix. Since we passed four numbers
@@ -72,40 +93,59 @@ matrix, six numbers would yield a 6x6 matrix, and so on.<br>
 
 ## Construct a Custom 5 x 5 Matrix
 
-Let's try to create this custom 5x5 matrix:<br>
+Let’s try to create this custom 5x5 matrix:<br>
 
-```         
-      [,1] [,2] [,3] [,4] [,5]
-[1,]    3    1    1    1    1
-[2,]    2    3    0    0    0
-[3,]    2    0    3    0    0
-[4,]    2    0    0    3    0
-[5,]    2    0    0    0    3
-```
+          [,1] [,2] [,3] [,4] [,5]
+    [1,]    3    1    1    1    1
+    [2,]    2    3    0    0    0
+    [3,]    2    0    3    0    0
+    [4,]    2    0    0    3    0
+    [5,]    2    0    0    0    3
 
-<br> First, let's create a 5x5 diagonal matrix named "column" with the
+<br> First, let’s create a 5x5 diagonal matrix named “column” with the
 principal elements being 3:<br>
 
-```{r}
+``` r
 custom <- diag(c(3),ncol=5,nrow=5)
 custom
 ```
 
-Then, with indexing, we can select the first row and the second to fifth
-columns of "custom," and fill those fields with the value 1. <br>
+    ##      [,1] [,2] [,3] [,4] [,5]
+    ## [1,]    3    0    0    0    0
+    ## [2,]    0    3    0    0    0
+    ## [3,]    0    0    3    0    0
+    ## [4,]    0    0    0    3    0
+    ## [5,]    0    0    0    0    3
 
-```{r}
+Then, with indexing, we can select the first row and the second to fifth
+columns of “custom,” and fill those fields with the value 1. <br>
+
+``` r
 custom[1,(2:5)] <- 1
 custom
 ```
 
+    ##      [,1] [,2] [,3] [,4] [,5]
+    ## [1,]    3    1    1    1    1
+    ## [2,]    0    3    0    0    0
+    ## [3,]    0    0    3    0    0
+    ## [4,]    0    0    0    3    0
+    ## [5,]    0    0    0    0    3
+
 Using the same method, we can select the first column and the second to
 fifth rows and fill those fields with the value 2.<br>
 
-```{r}
+``` r
 custom[(2:5),1] <- 2
 custom
 ```
+
+    ##      [,1] [,2] [,3] [,4] [,5]
+    ## [1,]    3    1    1    1    1
+    ## [2,]    2    3    0    0    0
+    ## [3,]    2    0    3    0    0
+    ## [4,]    2    0    0    3    0
+    ## [5,]    2    0    0    0    3
 
 We have obtained the desired matrix.<br>
 
