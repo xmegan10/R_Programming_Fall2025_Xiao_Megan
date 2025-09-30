@@ -6,41 +6,41 @@ output: github_document
 ---
 
 ## Matrix Addition & Subtraction
-Matrix operations allow us to combine matrices using addition, subtraction, multiplication, and division; this is helpful for transforming large systems to model real-word situations. Physics, engineering, and technology all require matrices and matrix operations.
-We will first look at addition and subtraction. Let's create two 2x2 matrices:
+Matrix operations combine matrices using addition, subtraction, multiplication, and division, transforming large systems to model real-world situations. Physics, engineering, and technology all require matrices and matrix operations to represent various scenarios.<br>
+We will first look at addition and subtraction. Let's create two 2x2 matrices:<br>
 ```{r}
 A <- matrix(c(2, 0, 1, 3), ncol = 2)
 B <- matrix(c(5, 2, 4, -1), ncol = 2)
 ```
-First, let's add B to A.
+First, let's add B to A.<br>
 ```{r}
 A + B
 ```
-Each value from B is added to each value from A respectively, returning a new 2x2 matrix. The order of the values doesn't matter either, as we can see when we add A to B; this is due to the commutative property, wherein the order of numbers in addition yields the same result.
+Each value from B is added to each value from A, respectively, returning a new 2x2 matrix. The order of the values doesn't matter either, as we can see when we add A to B; this is due to the commutative property, wherein the order of numbers in addition yields the same result.<br>
 ```{r}
 B + A
 ```
-Now, let's subtract B from A.
+Now, let's subtract B from A.<br>
 ```{r}
 A - B
 ```
-Each value from A is subtracted by each value from B, returning a new 2x2 matrix. When we switch the order of A and B, however, we get a different result. Although the numbers are the same, their signs are reversed.
+Each value from B is subtracted from each value from A, returning a new 2x2 matrix. When we switch the order of A and B, however, we get a different result. Although the numbers are the same, their signs are reversed.<br>
 ```{r}
 B - A
 ```
 
 ## Create a Diagonal Matrix
-A diagonal matrix consists of a square matrix where all values are zero except for the principal diagonal elements, forming a "triangle" of zeroes on the upper and lowers parts of the matrix. Diagonal matrices are useful for many operations.
-To build a diagonal matrix, we use the diag() function. Let's create a 4x4 diagonal matrix, D:
+A diagonal matrix consists of a square matrix where all values are zero except for the principal diagonal elements, forming a "triangle" of zeroes on the upper and lowers parts of the matrix. Diagonal matrices are useful for many operations.<br>
+To build a diagonal matrix, we use the diag() function. Let's create a 4x4 diagonal matrix, D:<br>
 ```{r}
 D <- diag(c(4, 1, 2, 3))
 D
 ```
-For each field where the index # of the row is not equal to the index # of the column in D[row, column], 0 must exist in that field. Scalar matrices, identity matrices, and null matrices are examples of diagonal matrices.
-The number of numbers passed into diag() will reflect the number of rows and columns in the matrix. Since four numbers were passed into diag() for D, we get a 4x4 matrix. Five numbers would yield a 5x5 matrix, six numbers yields a 6x6 matrix, and so on.
+For each field where the index # of the row is not equal to the index # of the column in D[row, column], 0 must exist in that field. Scalar matrices, identity matrices, and null matrices are examples of diagonal matrices. <br>
+The number of numbers passed into diag() reflects the number of rows and columns in the matrix. Since we passed four numbers into diag() for D, we get a 4x4 matrix. Five numbers would yield a 5x5 matrix, six numbers would yield a 6x6 matrix, and so on.<br>
 
 ## Construct a Custom 5 x 5 Matrix
-Let's try to create this matrix:
+Let's try to create this matrix:<br>
 
      [,1] [,2] [,3] [,4] [,5]
 [1,]    3    1    1    1    1
@@ -48,20 +48,23 @@ Let's try to create this matrix:
 [3,]    2    0    3    0    0
 [4,]    2    0    0    3    0
 [5,]    2    0    0    0    3
-
-First, let's create a 5x5 diagonal matrix named "column" with the principal elements being 3:
+<br>
+First, let's create a 5x5 diagonal matrix named "column" with the principal elements being 3:<br>
 ```{r}
 custom <- diag(c(3),ncol=5,nrow=5)
 custom
 ```
-Then, with indexing, we can select the first row and the second to fifth columns of "custom," and fill those fields with the value 1.
+Then, with indexing, we can select the first row and the second to fifth columns of "custom," and fill those fields with the value 1. <br>
 ```{r}
 custom[1,(2:5)] <- 1
 custom
 ```
-Using the same method, we can select the first column and the second to fifth rows and fill those fields with the value 2.
+Using the same method, we can select the first column and the second to fifth rows and fill those fields with the value 2.<br>
 ```{r}
 custom[(2:5),1] <- 2
 custom
 ```
-We have obtained the desired matrix.
+We have obtained the desired matrix.<br>
+
+## Summary
+R provides powerful, built-in tools for matrices. Matrices can be directly added to each other using basic operation symbols, and certain matrices, like diagonal matrices, can be easily created with functions like diag(). Additionally, subsetting pre-existing matrices allows us to manipulate certain parts without changing the entire matrix.<br>
