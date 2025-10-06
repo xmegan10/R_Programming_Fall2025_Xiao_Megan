@@ -7,11 +7,31 @@ output: html_document
 
 ## Choose or Download Data
 
-```{r}
+In this section, I will load an existing data set, analyze its first few rows, and describe its structure. I will use a well-known dataset, "iris," for this demonstration. To obtain the "iris" dataset, I will load in the "datasets" library.
 
+```{r}
+library(datasets)
 ```
+To view the first six rows, I use the head() function:
+```{r}
+head(iris)
+```
+The rows do not seem to be ordered based on any specific columns; however, they do seem to be grouped based on species, as seen by the rows only being of the species "setosa."
+To view the data type of each column and the number of rows (observations) and columns (variables), we use the str() function:
+
+```{r}
+str(iris)
+```
+The DataFrame contains 150 rows and 5 columns. The first four columns (sepal length, sepal width, petal length, and petal width) contain numerical decimals. 
+The last column, species, is a "Factor" data type with three levels; otherwise known as categorical columns. Although we can see the first two values, "setosa" and "versicolor," we cannot see the third value. We can find the unique values in column by using the unique() function:
+
+```{r}
+unique(iris$Species)
+```
+Now, we can clearly see the three levels of the Species column: setosa, versicolor, and virginica.
 
 ## Test Generic Functions
+
 
 ```{r}
 ```
