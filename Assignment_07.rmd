@@ -31,10 +31,45 @@ unique(iris$Species)
 Now, we can clearly see the three levels of the Species column: setosa, versicolor, and virginica.
 
 ## Test Generic Functions
+Generic functions are those which are derived from base R. These include functions such as print(), summary(), and plot(). For this section, I will use the functions mean(), range(), and summary().
 
+### Mean
+The mean() function calculates the average for a vector of numbers. It possesses three main parameters: x, trim, and na.rm.
+First, let's pretend we want the mean of all the columns in iris. We might try passing the entire iris DataFrame into mean():
+```{r}
+tryCatch(mean(iris), error = function(e) e)
+```
+This does not work because iris itself is not a numeric or logical. It is of the class "data.frame." To get the average of all numeric columns using the mean() function, we can use the sapply() function, which applies a function to all possible corresponding elements of a vector or expression object.
 
 ```{r}
+sapply(iris, mean)
 ```
+We get the mean of each numeric column. However, for the column, Species, we get a warning and an NA value because it is a categorical column. To ensure we only get numeric columns, we can extract only the numeric columns as a new DataFrame and perform the mean on it.
+```{r}
+iris.nums <- iris[sapply(iris, is.numeric)]
+sapply(iris.nums, mean)
+
+```
+
+### Range
+The range() function returns the minimum and maximum of a vector. Like the mean() function, it only works for numerical values. If we try to pass the iris DataFrame into range() directly, we get an error because we have a categorical column.
+```{r}
+tryCatch(range(iris), error = function(e) e)
+```
+If we want to find the minimum and maximum numbers for each numerical column, we will need to use the apply() function because it allows us to apply functions based on row or column using the MARGIN parameter. With the iris.nums DataFrame we created in the previous step, we can find the minimum and maximum of only the numeric column:
+```{r}
+apply(iris, MARGIN = 2, FUN = range)
+```
+The first row represents the minimum of each column and the second row represents the maximum. MARGIN = 2 indicates we want to apply the function based on column.
+
+### Summary
+The summary() function produces result summaries of various objects. For numeric columns, it produces a five-number summary and the mean. For factor columns, it produces the counts for each level and the number of NA values. For characters, the length, class, and mode of the column. For logicals, the counts of TRUE, FALSE, and NA values.
+Because of its versatility, we can pass the entire DataFrame without manipulating or changing it:
+
+```{r}
+summary(iris)
+```
+Since the first four columns are numeric, we receive a five-number summary and the means. Since the Species column is a factor, we receive the counts of each level. We can see we have no NA values in Species.
 
 ## Explore S3 vs. S4
 
