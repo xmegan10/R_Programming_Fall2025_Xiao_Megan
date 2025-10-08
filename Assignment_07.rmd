@@ -72,8 +72,72 @@ summary(iris)
 Since the first four columns are numeric, we receive a five-number summary and the means. Since the Species column is a factor, we receive the counts of each level. We can see we have no NA values in Species.
 
 ## Explore S3 vs. S4
+S3 and S4 refer to two different object-oriented programming systems that allow developers to create custom classes and methods. 
+S3 systems are informal, lightweight, and simple. They are mostly used when a project does not require strict class definitions or structures, and there is a desire for the classes to work with standard R functions. S4 systems, on the other hand, are best for large, complex systems with formal structures. It is best used when classes involve complex relationships and multiple inheritance.
+In this section, I create a S3 and S4 objects, analyze their usages with generic functions, and compare their similarities and differences.
+First, let's create a list with the attributes of name, age, and GPA. Let's assign this variable a class called "student_s3":
+```{r}
+s3_obj <- list(name = "Myself", age = 29, GPA = 3.5)
+class(s3_obj) <- "student_s3"
+```
+If we print s3_obj, we will receive the outputs assigned to each attribute:
+```{r}
+s3_obj
+```
+To create an S4 class and object, we will need to use the setClass() and new() function. setClass() allows us to create a class; within its parameters, we can set the name of the class, the name of the attributes, and the class types of the attributes. To create an object from the class, we use the new() function, passing in values to each predefined slot:
+```{r}
+setClass("student_s4",
+  slots = c(name = "character", age = "numeric", GPA = "numeric"))
+s4_obj <- new("student_s4", name = "Myself", age = 29, GPA = 3.5)
+```
+Unlike S3 objects, we must define the class and its attributes first before creating an object from it. S3 objects are the opposite; create the attributes and values first before assigning the object a class.
+If we print s4_obj, we will receive the value for each object's attribute:
+```{r}
+s4_obj
+```
+Generic functions are functions that performs an action based on the class of the object being passed into the argument. R allows us to build our own generic functions using the UseMethod() function. Developers use UseMethod() to define their own generic function; depending on the class of the object being passed, a certain action can occur.
+Below, I define a function named "generic_func" with UseMethod():
+```{r}
+generic_func <- function(x, ...){
+  UseMethod("generic_func")
+}
+```
+Let's create four methods for generic_func: student_s4, student_s3, numeric, and character. 
+The methods student_s4 and student_s3 determine if the object is part of the student_s4 or student_s3 classes respectively. The methods numeric and character determine if the class of the object is part of the numeric or character class respectively. Depending on the object's class, a print statement is returned, signifying the object's class.
 
 ```{r}
+generic_func.student_s4 <- function(x, ...){
+  print("This is a student_s4 object")
+}
+
+generic_func.student_s3 <- function(x, ...){
+  print("This is a student_s3 object")
+}
+
+generic_func.numeric <- function(x, ...){
+  print("This is a numeric object")
+}
+
+generic_func.character <- function(x, ...){
+  print("This is a character object")
+}
+```
+First, let's pass s3_obj and s4_obj into generic_func():
+```{r}
+generic_func(s3_obj)
+```
+```{r}
+generic_func(s4_obj)
+```
+The generic_func() function determines the classes of s3_obj and s4_obj. Once their classes have been determined, generic_func() runs the function based on the class. In this case, it is the print statement, "This is a (class name) object."
+We can do the same for s3_obj and s4_obj attributes. We reference attributes of S3 objects with a $ and S4 objects with an @:
+```{r}
+generic_func(s3_obj$name)
 ```
 
+```{r}
+generic_func(s4_obj@age)
+```
+The output returns whether the object is a character or numeric, similar to the former two generic_func() statements above.
 
+## Conclusion
