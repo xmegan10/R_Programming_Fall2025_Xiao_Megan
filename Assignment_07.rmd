@@ -1,5 +1,5 @@
 ---
-title: "Assignment_07\n"
+title: "Assignment_07"
 author: "Megan Xiao\n"
 date: "2025-10-13"
 output: github_document
