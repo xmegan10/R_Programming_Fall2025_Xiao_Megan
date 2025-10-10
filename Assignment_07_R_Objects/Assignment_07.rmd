@@ -2,7 +2,7 @@
 title: "Assignment_07"
 author: "Megan Xiao"
 date: "2025-10-13"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
