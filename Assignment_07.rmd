@@ -2,7 +2,7 @@
 title: "Assignment_07\n"
 author: "Megan Xiao\n"
 date: "2025-10-13"
-output: html_document
+output: github_document
 ---
 
 ## Choose or Download Data
