@@ -1,23 +1,34 @@
 ---
 title: "Assignment_08"
 author: "Megan Xiao"
-date: "2025-10-13"
+date: "2025-10-19"
 output: html_document
 ---
 
 ## Import Assignment 6 Data
+Importing a TXT file into R requires the read.table() function. Users can provide the file path and name within the first argument or use the file.choose() function, which allows us to choose a file from our computer interactively. We will use file.choose(). We'll also import the TXT file with column names by specifying header = TRUE, import strings without converting them into unique factor levels, and separate values into their respective columns by specifying sep = ','.
 
 ```{r}
-student6 <- read.table(file.choose(), header = TRUE, straingsAsFactor)
+student6 <- read.table(file.choose(), header = TRUE, stringsAsFactors = FALSE, sep = ',')
 ```
+We can now access the file ("Assignment 6 Dataset.txt") in our environment. Let's transform this file into a DataFrame.
+```{r}
+student6 <- data.frame(student6)
+```
+We want to see the average grade values for females and males. We can achieve this using the plyr package. We'll import it with library(). Then, with the ddply() function, we select the student6 DataFrame, select the "Sex" column, apply the summarise function on "Sex" (our grouping variable), and create a new column titled "GradeAverage" that displays the average grade values for our grouping variable, Sex.
 ```{r}
 library(plyr)
-gender_mean <- ddply(student6,
-                     "Sex",
-                     summarise,
+gender_mean <- ddply(.data = student6,
+                     .variable = "Sex",
+                     .fun = summarise,
                      GradeAverage = mean(Grade, na.rm = TRUE))
 ```
-
+Let's view gender_mean:
+```{r}
+gender_mean
+```
+Females have a higher grade average than males based on this dataset.
+To save this new DataFrame as a TXT file on our computer, we use the write.table() function. We specify the following arguments: the DataFrame, the name of the file, separation method (sep = "\t" means separating values using tab), and whether row names should display.
 ```{r}
 write.table(
   gender_mean,
@@ -25,13 +36,20 @@ write.table(
   sep = "\t",
   row.names = FALSE)
 ```
+After refreshing our file directory, we see a new file: gender_mean.txt. This file also appears in this Github directory.
 
 ## Filter Names Containing "i"
+Many applications, like SQL and Python, allow developers to filter data sets based on certain attributes. Filtering is mandatory for almost all real-life data sets, since data in the real world are often messy and disorganized.
+Subset is a user-friendly way of selecting and excluding variables and obversations, like indexing. To select only the rows in Name containing the letter "i" or "I," we pass the DataFrame, student6, and the selection expression, grepl(). In grepl(), we specify the pattern we want to keep, the column we extract the pattern form, and ignore cases in matching so that we get the rows regardless whether the letter is upper- or lower-case.
 ```{r}
 i_students <- subset(
   student6,
   grepl("i", Name, ignore.case = TRUE)
 )
+```
+Printing i_students, we see that we have only saved rows where names contained the letter "i."
+```{r}
+i_students
 ```
 
 ```{r}
