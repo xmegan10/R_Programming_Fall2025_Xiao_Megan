@@ -8,10 +8,47 @@ output: html_document
 ## Import Assignment 6 Data
 
 ```{r}
+student6 <- read.table(file.choose(), header = TRUE, straingsAsFactor)
+```
+```{r}
+library(plyr)
+gender_mean <- ddply(student6,
+                     "Sex",
+                     summarise,
+                     GradeAverage = mean(Grade, na.rm = TRUE))
+```
 
+```{r}
+write.table(
+  gender_mean,
+  file = "gender_mean.txt",
+  sep = "\t",
+  row.names = FALSE)
 ```
 
 ## Filter Names Containing "i"
+```{r}
+i_students <- subset(
+  student6,
+  grepl("i", Name, ignore.case = TRUE)
+)
+```
 
+```{r}
+write.csv(
+  i_students$Name,
+  file = "i_students.csv",
+  row.names = FALSE,
+  quote = FALSE
+)
+```
 ## Export Filtered Dataset
+
+```{r}
+write.csv(
+  i_students,
+  file = "i_students_full.csv",
+  row.names = FALSE
+)
+```
 
