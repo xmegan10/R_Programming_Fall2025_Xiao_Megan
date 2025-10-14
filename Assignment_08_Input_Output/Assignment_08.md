@@ -9,10 +9,9 @@ Due Date: 2025-10-19
 Importing a TXT file into R requires the read.table() function. Users
 can provide the file path and name within the first argument or use the
 file.choose() function, which lets us choose a file from our computer
-interactively. Because file.choose() does not work when publishing R
-Markdown files, for the purpose of this demonstration, we will import
-the file using the file name as a string instead. We will use
-file.choose(). We’ll also import the TXT file with column names by
+interactively. Since file.choose() does not work when publishing R
+Markdown files, we will import the file using the file name for this
+demonstration. <br> We’ll import the TXT file with column names by
 specifying header = TRUE, import strings without converting them into
 unique factor levels, and separate values into their respective columns
 by specifying sep = ‘,’. <br>
