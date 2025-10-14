@@ -28,7 +28,7 @@ Let's view gender_mean:
 gender_mean
 ```
 Females have a higher grade average than males based on this dataset.
-To save this new DataFrame as a TXT file on our computer, we use the write.table() function. We specify the following arguments: the DataFrame, the name of the file, separation method (sep = "\t" means separating values using tab), and whether row names should display.
+To save this new DataFrame as a TXT file on our computer, we use the write.table() function. We specify the following arguments: the DataFrame, the name of the new TXT file, separation method (sep = "\t" means separating values using tab), and whether row names should display.
 ```{r}
 write.table(
   gender_mean,
@@ -51,7 +51,7 @@ Printing i_students, we see that we have only saved rows where names contained t
 ```{r}
 i_students
 ```
-
+Similar to using write.table() to export files to a TXT, we can use the write.csv() function to export DataFrames or columns of a DataFrame to a CSV. We specify the following arguments: the DataFrame column, the name of the new CSV file, whether row names should display, and whether columns should be surrounded by double quotes.
 ```{r}
 write.csv(
   i_students$Name,
@@ -60,8 +60,9 @@ write.csv(
   quote = FALSE
 )
 ```
-## Export Filtered Dataset
 
+## Export Filtered Dataset
+We will export the entire i_students DataFrame as a CSV file. This expression is the same as the one we did before, except we do not set quote to FALSE.
 ```{r}
 write.csv(
   i_students,
@@ -70,3 +71,4 @@ write.csv(
 )
 ```
 
+The following files will now be visible in the current working directory: "gender_mean.txt", "i_students.csv", and "i_students_full.csv".
