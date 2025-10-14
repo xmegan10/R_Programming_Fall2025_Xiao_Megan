@@ -6,10 +6,14 @@ output: github_document
 ---
 
 ## Import Assignment 6 Data
-Importing a TXT file into R requires the read.table() function. Users can provide the file path and name within the first argument or use the file.choose() function, which lets us choose a file from our computer interactively. We will use file.choose(). We'll also import the TXT file with column names by specifying header = TRUE, import strings without converting them into unique factor levels, and separate values into their respective columns by specifying sep = ','. <br>
+Importing a TXT file into R requires the read.table() function. Users can provide the file path and name within the first argument or use the file.choose() function, which lets us choose a file from our computer interactively. Since file.choose() does not work when publishing R Markdown files, we will import the file using the file name for this demonstration. <br>
+We'll import the TXT file with column names by specifying header = TRUE, import strings without converting them into unique factor levels, and separate values into their respective columns by specifying sep = ','. <br>
 
 ```{r}
-student6 <- read.table(file.choose(), header = TRUE, stringsAsFactors = FALSE, sep = ',')
+#Original code, allows user to choose file interactively
+#student6 <- read.table(file.choose(), header = TRUE, stringsAsFactors = FALSE, sep = ',')
+
+student6 <- read.table("Assignment 6 Dataset.txt", header = TRUE, stringsAsFactors = FALSE, sep = ',')
 ```
 We can now access the file ("Assignment 6 Dataset.txt") in our environment. Let's transform this file into a DataFrame. <br>
 ```{r}
