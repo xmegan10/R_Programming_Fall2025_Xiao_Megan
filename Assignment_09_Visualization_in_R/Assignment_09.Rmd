@@ -1,30 +1,50 @@
 ---
 title: "Assignment_09"
 author: "Megan Xiao"
-date: "2025-10-22"
+date: "2025-10-27"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Choose a Dataset
+
+```{r}
+data("storms", package = "dplyr")
+head(storms)
 ```
 
-## R Markdown
+## Base R Graphics
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+plot(storms$wind~ storms$pressure)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+hist(storms$category)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Lattice Graphics
+```{r}
+library(dplyr)
+```
+
+```{r}
+s_df <- storms
+s_df_
+```
+
+```{r}
+# densityplot
+
+```
+
+```{r}
+# heat map levelplot
+```
+## Using ggplot2
+```{r}
+```
+
+```{r}
+```
+
+## Discussion
