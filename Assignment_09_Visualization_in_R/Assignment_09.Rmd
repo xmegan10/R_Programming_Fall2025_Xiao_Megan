@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ## Choose a Dataset
-
+R packages contain various datasets for users to practice and work with. For this assignment, I 
 ```{r}
 data("storms", package = "dplyr")
 head(storms)
@@ -15,36 +15,95 @@ head(storms)
 ## Base R Graphics
 
 ```{r}
-plot(storms$wind~ storms$pressure)
+plot(storms$wind~ storms$pressure,
+     xlab = "Pressure",
+     ylab = "Wind Speed (in MPH)",
+     main = "Pressure vs Wind Speed (in MPH")
 ```
 
 ```{r}
-hist(storms$category)
+hist(storms$category,
+     xlab = "Category",
+     main = "Distribution of Storm Categories (1-5)")
 ```
 
 ## Lattice Graphics
 ```{r}
 library(dplyr)
+library(lattice)
 ```
 
 ```{r}
+# densityplot, find distribution of avg wind speed for category 5 storms
 s_df <- storms
-s_df_
+s_avg_wind <- s_df %>%
+  group_by(name) %>%
+  filter(category == 5) %>%
+  summarise(avg_wind_speed = mean(wind))
+  
+densityplot(~avg_wind_speed,data=s_avg_wind,
+            xlab = "Average Wind Speed",
+            main = "Avg Wind Speeds for Cat 5 Storms")
+
 ```
 
 ```{r}
-# densityplot
+# levelplot of time as x, avg wind as y, and avg pressure as z
+s_pressure <- s_df %>%
+  group_by(year) %>%
+  summarise(avg_wind_speed = mean(wind), avg_pressure = mean(pressure))
 
-```
+levelplot(avg_pressure ~ year * avg_wind_speed,
+          data = s_pressure,
+          panel = panel.levelplot.points,
+          xlab = "Year",
+          ylab = "Average Wind Speed",
+          main = "Average Wind Speed (in MPH) by Year")
+  
 
-```{r}
-# heat map levelplot
 ```
 ## Using ggplot2
 ```{r}
+library(ggplot2)
 ```
 
 ```{r}
+#scatter plot with scaled points showing correlation between length of time, avg wind speed, and avg pressure
+s_max <- s_df %>%
+  group_by(name, year) %>%
+  summarize(
+    storm_length = n(),
+    avg_wind = mean(wind),
+    avg_pressure = mean(pressure)
+  ) %>%
+  arrange(desc(avg_wind))
+
+ggplot(s_max, aes(x = avg_pressure, y = avg_wind, color=storm_length)) + 
+  geom_point() +
+  labs(title = "Avg Pressure vs Avg Wind Speed",
+       subtitle = "With Storm Length",
+       x = "Average Wind Speed in MPH",
+       y = "Average Pressure",
+       color = "Storm Length in Days") +
+  theme_minimal()
+```
+
+```{r}
+#box plot of top 5 strongest storm by max winds
+s_top_5_names <- s_df %>%
+  group_by(name) %>%
+  summarise(max_wind = max(wind)) %>%
+  arrange(desc(max_wind)) %>%
+  slice_head(n=5)
+
+s_top_5 <- s_df %>%
+  filter(name == s_top_5_names$name)
+  
+ggplot(s_top_5, aes(x = name, y = wind)) + geom_boxplot(outlier.color = "red") +
+  labs(title = "Box Plot of Top 5 Storm by Wind",
+       x = "Storm",
+       y = "Wind Speed in MPH") +
+  theme_minimal()
 ```
 
 ## Discussion
