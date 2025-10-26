@@ -68,7 +68,6 @@ levelplot(avg_pressure ~ year * avg_wind_speed,
           colorkey = list(title = "Avg Pressure",
                           title.control = list(side = "top"))
           )
-  
 
 ```
 <br>There doesn't seem to be a correlation between average wind speed or year. As analyzed before, pressure decreases as wind speed increases. <br>
