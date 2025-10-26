@@ -2,7 +2,7 @@
 title: "Assignment_09"
 author: "Author: Megan Xiao\n"
 date: "Date: 2025-10-27"
-output: html_document
+output: github_document
 ---
 
 ## Choose a Dataset
