@@ -1,7 +1,7 @@
 ---
 title: "Assignment_09"
-author: "Megan Xiao"
-date: "2025-10-27"
+author: "Author: Megan Xiao\n"
+date: "Date: 2025-10-27"
 output: html_document
 ---
 
@@ -22,7 +22,7 @@ plot(storms$pressure~ storms$wind,
      xlab = "Wind Speed (in MPH)",
      main = "Pressure vs Wind Speed (in MPH")
 ```
-As wind speed increases, pressure decreases. This makes sense because changes in air density causes changes in pressure. <br>
+<br>As wind speed increases, pressure decreases. This makes sense because changes in air density causes changes in pressure. <br>
 Now, let's observe the frequency of category 1-5 storms using a histogram: <br>
 ```{r}
 hist(storms$category,
@@ -30,13 +30,14 @@ hist(storms$category,
      xlab = "Category",
      main = "Distribution of Storm Categories (1-5)")
 ```
-Most storms are category 1 storms and the graph skews to the right. I was a bit surprised by this result, as I did not think category 2+ storms were rare compared to category 1 storms. <br>
+<br>Most storms are category 1 storms and the graph skews to the right. I was a bit surprised by this result, as I did not think category 2+ storms were rare compared to category 1 storms. <br>
 
 ## Lattice Graphics
 The lattice package, written by Deepayan Sarkar, enhances Base R graphs by improving visualizations of multivariate relationships. I will use the dplyr package to manipulate the data and lattice to create the visualizations. <br>
 ```{r}
 library(dplyr)
 library(lattice)
+library(latticeExtra)
 ```
 After loading the two packages, I create a copy of the storms DataFrame so I can manipulate it without changing the original. Then, I use dplyr to create a new DataFrame from it. "s_avg_wind" contains the average wind speeds for each category 5 storm. Finally, I create a density plot with the densityplot() function, where the average wind speed is the x variable: <br> 
 ```{r}
@@ -51,7 +52,7 @@ densityplot(~avg_wind_speed,data=s_avg_wind,
             main = "Avg Wind Speeds for Cat 5 Storms")
 
 ```
-Most points cluster around the 140-150 mph area. There appears to be an outlier around 155. Most of these values are typical for a category 5 storm. <br>
+<br>Most points cluster around the 140-150 mph area. There appears to be an outlier around 155. Most of these values are typical for a category 5 storm. <br>
 Next, I analyze average wind speed and pressure of all storms by year. After grouping the storm data by year and creating columns for average wind speed and pressure, I used the levelplot() function to understand how average wind speed and pressure correlate as time changes. <br>
 ```{r}
 s_pressure <- s_df %>%
@@ -65,12 +66,12 @@ levelplot(avg_pressure ~ year * avg_wind_speed,
           ylab = "Average Wind Speed",
           main = "Average Wind Speed (in MPH) by Year",
           colorkey = list(title = "Avg Pressure",
-                          title.control = list(side = "top", padding = 0.5))
+                          title.control = list(side = "top"))
           )
   
 
 ```
-There doesn't seem to be a correlation between average wind speed or year. As analyzed before, pressure decreases as wind speed increases. <br>
+<br>There doesn't seem to be a correlation between average wind speed or year. As analyzed before, pressure decreases as wind speed increases. <br>
 ## Using ggplot2
 One of the most popular visualization packages is ggplot2, a system for declaratively creating graphics.
 ```{r}
@@ -96,7 +97,7 @@ ggplot(s_max, aes(x = avg_wind, y = avg_pressure, color=storm_length)) +
        color = "Storm Length in Days") +
   theme_minimal()
 ```
-As wind speed increases and pressure decreases, storm length appears to increase. This may be due to the fact that when a storm has more time to develop, there is a higher likelihood it becomes a stronger storm. <br>
+<br>As wind speed increases and pressure decreases, storm length appears to increase. This may be due to the fact that when a storm has more time to develop, there is a higher likelihood it becomes a stronger storm. <br>
 Finally, I compare the wind speeds of the 5 strongest storms based on max wind speeds. First, I obtain the storm names by grabbing the names with the highest wind speeds. Then I use those five names to filter for the rows containing those names, thus grabbing all wind speed data points for the top 5 strongest storms. I use ggplot() and geom_boxplot() to visualize how the 5 strongest storms differ in wind speeds: <br>
 ```{r}
 #box plot of top 5 strongest storm by max winds
@@ -115,9 +116,11 @@ ggplot(s_top_5, aes(x = name, y = wind)) + geom_boxplot(outlier.color = "red") +
        y = "Wind Speed in MPH") +
   theme_minimal()
 ```
-It appears Allen overall had the highest wind speeds while Dorian had the lowest. <br>
+<br>It appears Allen overall had the highest wind speeds while Dorian had the lowest. <br>
+
 ## Discussion
-Base R uses an additive model where you start with a plot window and layer elements using successive function calls. Lattice uses a single function call based on trellis graphics, which shows the relationship between multiple variables across different subsets of data. ggplot2 utilizes an additive approach to map data variables, aesthetic properties (aes), geometric shapes (geom), and scales and facets (facet_wrap or facet_grid). <br>
+
+<br>Base R uses an additive model where you start with a plot window and layer elements using successive function calls. Lattice uses a single function call based on trellis graphics, which shows the relationship between multiple variables across different subsets of data. ggplot2 utilizes an additive approach to map data variables, aesthetic properties (aes), geometric shapes (geom), and scales and facets (facet_wrap or facet_grid). <br>
 
 In my opinion, ggplot2 provides the most control and produces "publication-quality" output. Although Base R offers more control, achieving high-quality aesthetics, such as various font themes, axis breaks, or complex legends, it requires a lot of manual tweaking. ggplot2 possesses a layered structure and theme system, allowing for more complex aesthetics without excessive effort. <br>
 
