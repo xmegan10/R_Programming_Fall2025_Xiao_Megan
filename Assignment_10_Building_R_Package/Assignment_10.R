@@ -1,9 +1,9 @@
 #Initialize Your Package Skeleton
 library(devtools)
-create("Megan")
+create("Friedman")
 
 #Edit the DESCRIPTION File
 
 #Verify and Build
-check("Megan")
-build("Megan")
+check("Friedman")
+build("Friedman")
