@@ -1,0 +1,142 @@
+Assignment_11
+================
+Author: Megan Xiao
+
+Date: 2025-11-10
+
+## Buggy Code
+
+The “tukey_multiple” function takes a numeric matrix x and flags rows
+that contain outliers in every column according to the Tukey rule. The
+Tukey rule flags values as outliers if it is below the lower fence or
+above the upper fence.<br> The function, however, has an error:<br>
+
+``` r
+err_tukey_multiple <- function(x) {
+  outliers <- array(TRUE, dim = dim(x))
+  for (j in 1:ncol(x)) { 
+    outliers[, j] <- outliers[, j] && tukey.outlier(x[,j]) 
+  }
+  outlier.vec <- vector("logical", length = nrow(x))
+  for (i in 1:nrow(x)) {
+    outlier.vec[i] <- all(outliers[i, ])
+  }
+  return(outlier.vec)
+}
+```
+
+``` r
+set.seed(123)
+test_mat <- matrix(rnorm(50), nrow = 10)
+err_tukey_multiple(test_mat)
+```
+
+    ## Error in outliers[, j] && tukey.outlier(x[, j]): 'length = 10' in coercion to 'logical(1)'
+
+<br>This error indicates the incorrect use of the double ampersand (&&).
+The double ampersand operator is designed for only single values, not
+vectors with multiple elements, as indicated with the “length = 10”
+statement. To fix the code, we would need only a single ampersand (&).
+Even after fixing this error, we need to define the function
+“tukey.outlier.”<br>
+
+## Fix the Code
+
+We will define a “tukey.outlier” function to use in the Tukey function.
+The outlier function will find the first and third quartiles of vector
+of values, calculate the IQR, determine the lower and upper fences, and
+return a Boolean of whether a the vector contains outliers.<br>
+
+``` r
+tukey.outlier <- function(x){
+  q1 <- quantile(x, 0.25)
+  q3 <- quantile(x, 0.75)
+  iqr <- q3 - q1
+  lower_fence <- q1 - (1.5 * iqr)
+  upper_fence <- q3 + (1.5 * iqr)
+  
+ is_outlier <- (x < lower_fence) | (x > upper_fence)
+ return(is_outlier)
+}
+```
+
+## Validate Your Fix
+
+Now, let’s try running the corrected Tukey function with the single
+ampersand and valid “tukey.outlier” function:<br>
+
+``` r
+corrected_tukey <- function(x) {
+  outliers <- array(TRUE, dim = dim(x))
+  for (j in seq_len(ncol(x))) {
+    outliers[, j] <- outliers[, j] & tukey.outlier(x[, j])
+  }
+  outlier.vec <- logical(nrow(x))
+  for (i in seq_len(nrow(x))) {
+    outlier.vec[i] <- all(outliers[i, ])
+  }
+  outlier.vec
+}
+```
+
+``` r
+corrected_tukey(test_mat)
+```
+
+    ##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+
+There doesn’t seem to be any rows where every column is an outlier.
+
+## Defensive Enhancements
+
+To ensure users only input fully numeric matrices, we can use a
+tryCatch() statement. First, we determine if every value in the matrix
+is a numeric value. If not, we print an error stating that some or all
+of the matrix is not numeric. If the matrix is fully numeric, the
+function outputs the intended result.<br>
+
+``` r
+corrected_tukey <- function(x) {
+  result <- tryCatch({
+    all_numeric <- all(sapply(x, is.numeric))
+    stopifnot(all_numeric)
+  }, error = function(e) {
+    print("Some or all of the matrix is not numeric.")
+  })
+    outliers <- array(TRUE, dim = dim(x))
+  for (j in seq_len(ncol(x))) {
+    outliers[, j] <- outliers[, j] & tukey.outlier(x[, j])
+  }
+  outlier.vec <- logical(nrow(x))
+  for (i in seq_len(nrow(x))) {
+    outlier.vec[i] <- all(outliers[i, ])
+  }
+  
+  return(outlier.vec)
+  
+}
+```
+
+Let’s test this function on a matrix that contains 2 rows of string
+values and 1 row of numeric values:<br>
+
+``` r
+str_mat <- matrix(c("a","b","c","d"),nrow =2, ncol = 2)
+new_row <- c(1,2)
+str_mat <- rbind(str_mat,new_row)
+corrected_tukey(str_mat)
+```
+
+    ## [1] "Some or all of the matrix is not numeric."
+
+    ## Error in (1 - h) * qs[i]: non-numeric argument to binary operator
+
+Our function seems to be working as intended. We get our error statement
+along with the error object that was caught. <br> And using the
+defensive function on a fully numeric matrix gives us no error:<br>
+
+``` r
+corrected_tukey(test_mat)
+```
+
+    ##  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
