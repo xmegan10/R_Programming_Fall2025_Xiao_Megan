@@ -4,7 +4,7 @@ Author: Megan Xiao
 
 Date: 2025-11-10
 
-# Introduction
+## Introduction
 
 R Markdown is a file format that allows users to combine R code, visuals
 (such as plots and tables), and narrative text into a reproducible
@@ -14,12 +14,20 @@ legibility of commentary and code. R Markdown has many output formats,
 such as HTML, PDF, and Word.<br> R Markdown has three main components:
 Headers for meta data, R code chunks, and narrative text. This
 paragraph, for example, is a narrative text. Below, we will also explore
-R code chunks and LaTeX (inline) expressions. <br> \# LaTeX Math
-Expression LaTeX is a typesetting system used for scientific and
-technical documents. It is mainly used to format complex mathematical
-equations, providing structure and consistency. `$a^2 + b^2 = c^2$`
+R code chunks and LaTeX (inline) expressions. <br>
 
-# Executable R Code
+## LaTeX Math Expression
+
+<br>LaTeX is a typesetting system used for scientific and technical
+documents. It is mainly used to format complex mathematical equations,
+providing structure and consistency.<br> Here is an example of the
+Pythagorean theorem using the LaTeX system: <br> `$a^2 + b^2 = c^2$`
+
+## Executable R Code
+
+R Markdown is capable of executing code chunks and visuals. Below, we
+will visualize a ggplot line graph of “ChickWeight” in the R Markdown
+format. First, let’s import the required libraries: <br>
 
 ``` r
 library(ggplot2)
@@ -42,6 +50,9 @@ library(tidyr)
 data("ChickWeight")
 ```
 
+Now, let’s visualize how each of the 4 diets affect the weight of each
+chick differently: <br>
+
 ``` r
 ChickWeight_wide <- ChickWeight %>%
   group_by(Diet, Time) %>%
@@ -56,10 +67,13 @@ ggplot(data = ChickWeight_wide, aes(x=Time, y = mean_weight, color= Diet)) +
   theme_minimal()
 ```
 
-![](Assignment_12_files/figure-gfm/unnamed-chunk-2-1.png)<!-- --> \#
-Reflection Markdown is a very popular format for sharing reproducible
-code because it can integrate both text and visuals. Personally, I
-prefer Markdown over plain R files because they allow for greater
+![](Assignment_12_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+## Reflection
+
+<br>Markdown is a very popular format for sharing reproducible code
+because it can integrate both text and visuals. Personally, I prefer
+Markdown over plain R files because they allow for greater
 understandability and ease of documentation. This was my first time
 using LaTeX, but I’m glad to have learned it because it will make
 integrating mathematical equations easier. I learned how to use inline
