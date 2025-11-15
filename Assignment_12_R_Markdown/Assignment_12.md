@@ -1,0 +1,77 @@
+Assignment_12
+================
+Author: Megan Xiao
+
+Date: 2025-11-10
+
+# Introduction
+
+R Markdown is a file format that allows users to combine R code, visuals
+(such as plots and tables), and narrative text into a reproducible
+document. It is an extension of the Markdown language and supports
+executable code chunks.The main purpose of R is to enhance the
+legibility of commentary and code. R Markdown has many output formats,
+such as HTML, PDF, and Word.<br> R Markdown has three main components:
+Headers for meta data, R code chunks, and narrative text. This
+paragraph, for example, is a narrative text. Below, we will also explore
+R code chunks and LaTeX (inline) expressions. <br> \# LaTeX Math
+Expression LaTeX is a typesetting system used for scientific and
+technical documents. It is mainly used to format complex mathematical
+equations, providing structure and consistency. `$a^2 + b^2 = c^2$`
+
+# Executable R Code
+
+``` r
+library(ggplot2)
+library(dplyr)
+```
+
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+``` r
+library(tidyr)
+data("ChickWeight")
+```
+
+``` r
+ChickWeight_wide <- ChickWeight %>%
+  group_by(Diet, Time) %>%
+  summarise(mean_weight = mean(weight), .groups = "drop") 
+
+
+ggplot(data = ChickWeight_wide, aes(x=Time, y = mean_weight, color= Diet)) + 
+  geom_line() +
+  labs(x = "Time (in days)",
+       y= "Avg Weight",
+       title = "Time vs Avg Weight of Chicks on Diff Diets") +
+  theme_minimal()
+```
+
+![](Assignment_12_files/figure-gfm/unnamed-chunk-2-1.png)<!-- --> \#
+Reflection Markdown is a very popular format for sharing reproducible
+code because it can integrate both text and visuals. Personally, I
+prefer Markdown over plain R files because they allow for greater
+understandability and ease of documentation. This was my first time
+using LaTeX, but I’m glad to have learned it because it will make
+integrating mathematical equations easier. I learned how to use inline
+LaTeX with dollar signs to display equations for cleaner presentations
+of formulas. <br> Narrative text supports and describes code chunks,
+which are defined by three backticks and an R brace. The code chunks are
+where the actual data analysis takes place. Visuals and plots are then
+dynamically inserted into the final document. Chunks also have
+additional options, such as “echo=FALSE,” to enable further
+customization.<br> I did not face any particular challenge in this
+assignment. However, when I first began using R Markdown files, I did
+have trouble with text formatting and GitHub output. I learned that to
+put breaks after paragraphs, I needed to use the “<br>” tag, and that to
+output a markdown file to GitHub, I needed to specify “output:
+github_document” at the top of the document.<br>
